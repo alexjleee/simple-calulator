@@ -32,4 +32,10 @@ buttons.addEventListener("click", (e) => {
     }
     displayResult.textContent = current;
   }
+
+  // When % (percentage) button is clicked
+  if (buttonType === "percentage") {
+    current /= 100;
+  }
+  displayResult.textContent = current;
 });
