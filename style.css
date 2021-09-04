@@ -1,0 +1,100 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  font-size: 24px;
+  background-image: url(https://images.unsplash.com/photo-1485627941502-d2e6429a8af0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80);
+  /* background-image: url(https://images.unsplash.com/photo-1496307653780-42ee777d4833?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80); */
+  /* background-image: url(https://images.unsplash.com/photo-1428765048792-aa4bdde46fea?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1489&q=80); */
+  background-size: cover;
+}
+
+button {
+  border: none;
+  width: auto;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  border: 0;
+}
+
+#wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calculator {
+  width: 300px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #565656;
+  border-radius: 5px;
+  border: 1px solid #232323;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+  overflow: hidden;
+}
+
+.calculator__display {
+  width: 100%;
+  height: 100%;
+  padding: 60px 16px 16px;
+}
+
+.calculator__display__result {
+  width: 100%;
+  height: 100%;
+  font-size: 32px;
+  text-align: end;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.calculator__buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  row-gap: 1px;
+  column-gap: 1px;
+}
+
+.calculator__button {
+  width: 100%;
+  height: 55px;
+  background-color: #727272;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.calculator__button:focus {
+  opacity: 0.75;
+}
+
+.calculator__button.operator,
+.calculator__button.calculate {
+  background-color: #ffa00a;
+}
+
+.calculator__button.all-clear,
+.calculator__button.plus-minus,
+.calculator__button.percentage {
+  background-color: #656565;
+}
+
+.calculator__button.double {
+  width: 100%;
+  grid-column: 1 / span 2;
+}
