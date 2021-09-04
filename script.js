@@ -17,6 +17,14 @@ buttons.addEventListener("click", (e) => {
     displayResult.textContent = current;
   }
 
+  // When dot button is clicked
+  if (buttonType === "dot") {
+    if (!current.includes(".")) {
+      current += buttonContet;
+      displayResult.textContent = current;
+    }
+  }
+
   // When all-clear button is clicked
   if (buttonType === "all-clear") {
     current = "0";
