@@ -16,4 +16,10 @@ buttons.addEventListener("click", (e) => {
     current += buttonContet;
     displayResult.textContent = current;
   }
+
+  // When all-clear button is clicked
+  if (buttonType === "all-clear") {
+    current = "0";
+    displayResult.textContent = current;
+  }
 });
