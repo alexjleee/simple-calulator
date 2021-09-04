@@ -22,4 +22,14 @@ buttons.addEventListener("click", (e) => {
     current = "0";
     displayResult.textContent = current;
   }
+
+  // When +/- button is clicked
+  if (buttonType === "plus-minus") {
+    if (current[0] === "-") {
+      current = current.substring(1);
+    } else {
+      current = "-" + current;
+    }
+    displayResult.textContent = current;
+  }
 });
