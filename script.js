@@ -2,7 +2,7 @@ const calculator = document.querySelector(".calculator");
 const buttons = calculator.querySelector(".calculator__buttons");
 const displayResult = calculator.querySelector(".calculator__display__result");
 
-let current = "0";
+let acc, current, operator, prevKey;
 
 buttons.addEventListener("click", (e) => {
   const buttonType = e.target.classList[1];
@@ -27,8 +27,11 @@ buttons.addEventListener("click", (e) => {
 
   // When all-clear button is clicked
   if (buttonType === "all-clear") {
-    current = "0";
-    displayResult.textContent = current;
+    acc = null;
+    current = null;
+    operator = null;
+    displayResult.textContent = "0";
+    prevKey = "clear";
   }
 
   // When +/- button is clicked
