@@ -8,13 +8,55 @@ buttons.addEventListener("click", (e) => {
   const buttonType = e.target.classList[1];
   const buttonContet = e.target.textContent;
 
+  function calculate(s1, op, s2) {
+    let n1 = Number(s1);
+    let n2 = Number(s2);
+
+    if (op === "+") {
+      return n1 + n2;
+    }
+    if (op === "-") {
+      return n1 - n2;
+    }
+    if (op === "×") {
+      return n1 * n2;
+    }
+    if (op === "÷") {
+      return n1 / n2;
+    }
+  }
+
+  console.log(
+    `B acc: ${acc}, current: ${current}, operator: ${operator}, prevKey: ${prevKey}`
+  );
+
   // When a number button is clicked
   if (buttonType === "number") {
-    if (current === "0") {
+    if (displayResult.textContent === "0" || prevKey === "operator") {
       current = "";
     }
     current += buttonContet;
     displayResult.textContent = current;
+    prevKey = "number";
+  }
+
+  // When an operator button is clicked
+  if (buttonType === "operator") {
+    if (acc && operator && prevKey !== "operator") {
+      current = calculate(acc, operator, current);
+      displayResult.textContent = current;
+    }
+    acc = displayResult.textContent;
+    operator = buttonContet;
+    prevKey = "operator";
+  }
+
+  // When calculate button is clicked
+  if (buttonType === "calculate") {
+    current = calculate(acc, operator, current);
+    acc = null;
+    displayResult.textContent = current;
+    prevKey = "calculate";
   }
 
   // When dot button is clicked
@@ -49,4 +91,8 @@ buttons.addEventListener("click", (e) => {
     current /= 100;
   }
   displayResult.textContent = current;
+
+  console.log(
+    `A acc: ${acc}, current: ${current}, operator: ${operator}, prevKey: ${prevKey}`
+  );
 });
