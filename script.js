@@ -1,98 +1,159 @@
+
 const calculator = document.querySelector(".calculator");
 const buttons = calculator.querySelector(".calculator__buttons");
-const displayResult = calculator.querySelector(".calculator__display__result");
+const displayResult = calculator.querySelector(
+  ".calculator__display__result"
+);
 
-let acc, current, operator, prevKey;
+let acc = null;
+let current = "0";
+let operator = null;
+let prevKey = "clear";
 
-buttons.addEventListener("click", (e) => {
-  const buttonType = e.target.classList[1];
-  const buttonContet = e.target.textContent;
+function calculate(s1, op, s2) {
+  const n1 = Number(s1);
+  const n2 = Number(s2);
 
-  function calculate(s1, op, s2) {
-    let n1 = Number(s1);
-    let n2 = Number(s2);
-
-    if (op === "+") {
-      return n1 + n2;
-    }
-    if (op === "-") {
-      return n1 - n2;
-    }
-    if (op === "×") {
-      return n1 * n2;
-    }
-    if (op === "÷") {
-      return n1 / n2;
-    }
+  if (op === "+") {
+    return n1 + n2;
   }
 
-  console.log(
-    `B acc: ${acc}, current: ${current}, operator: ${operator}, prevKey: ${prevKey}`
-  );
+  if (op === "-") {
+    return n1 - n2;
+  }
 
-  // When a number button is clicked
+  if (op === "×") {
+    return n1 * n2;
+  }
+
+  if (op === "÷") {
+    if (n2 === 0) {
+      return "Error";
+    }
+
+    return n1 / n2;
+  }
+
+  return n2;
+}
+
+function updateDisplay(value) {
+  displayResult.textContent = value;
+}
+
+function formatNumber(value) {
+  if (value === "Error") {
+    return "Error";
+  }
+
+  return String(Number(value));
+}
+
+buttons.addEventListener("click", (e) => {
+  const button = e.target.closest("button");
+
+  if (!button) {
+    return;
+  }
+
+  const buttonType = button.classList[1];
+  const buttonContent = button.textContent.trim();
+
+  // Number buttons
   if (buttonType === "number") {
-    if (displayResult.textContent === "0" || prevKey === "operator") {
+    if (
+      current === "0" ||
+      prevKey === "operator" ||
+      prevKey === "calculate"
+    ) {
       current = "";
     }
-    current += buttonContet;
-    displayResult.textContent = current;
+
+    current += buttonContent;
+
+    updateDisplay(current);
     prevKey = "number";
   }
 
-  // When an operator button is clicked
-  if (buttonType === "operator") {
-    if (acc && operator && prevKey !== "operator") {
-      current = calculate(acc, operator, current);
-      displayResult.textContent = current;
+  // Operator buttons
+  else if (buttonType === "operator") {
+    if (prevKey === "operator") {
+      operator = buttonContent;
+      return;
     }
-    acc = displayResult.textContent;
-    operator = buttonContet;
+
+    if (acc !== null && operator !== null && prevKey !== "calculate") {
+      current = formatNumber(calculate(acc, operator, current));
+
+      if (current === "Error") {
+        updateDisplay(current);
+        acc = null;
+        operator = null;
+        prevKey = "calculate";
+        return;
+      }
+    }
+
+    acc = current;
+    operator = buttonContent;
+
+    updateDisplay(current);
     prevKey = "operator";
   }
 
-  // When calculate button is clicked
-  if (buttonType === "calculate") {
-    current = calculate(acc, operator, current);
-    acc = null;
-    displayResult.textContent = current;
-    prevKey = "calculate";
+  // Calculate button
+  else if (buttonType === "calculate") {
+    if (acc !== null && operator !== null) {
+      current = formatNumber(calculate(acc, operator, current));
+
+      updateDisplay(current);
+
+      acc = null;
+      operator = null;
+
+      prevKey = "calculate";
+    }
   }
 
-  // When dot button is clicked
-  if (buttonType === "dot") {
+  // Decimal button
+  else if (buttonType === "dot") {
+    if (prevKey === "operator" || prevKey === "calculate") {
+      current = "0";
+    }
+
     if (!current.includes(".")) {
-      current += buttonContet;
-      displayResult.textContent = current;
+      current += ".";
     }
+
+    updateDisplay(current);
+    prevKey = "number";
   }
 
-  // When all-clear button is clicked
-  if (buttonType === "all-clear") {
+  // All-clear button
+  else if (buttonType === "all-clear") {
     acc = null;
-    current = null;
+    current = "0";
     operator = null;
-    displayResult.textContent = "0";
     prevKey = "clear";
+
+    updateDisplay("0");
   }
 
-  // When +/- button is clicked
-  if (buttonType === "plus-minus") {
-    if (current[0] === "-") {
-      current = current.substring(1);
-    } else {
-      current = "-" + current;
+  // Plus-minus button
+  else if (buttonType === "plus-minus") {
+    if (current !== "0" && current !== "Error") {
+      current = String(Number(current) * -1);
     }
-    displayResult.textContent = current;
+
+    updateDisplay(current);
   }
 
-  // When % (percentage) button is clicked
-  if (buttonType === "percentage") {
-    current /= 100;
-  }
-  displayResult.textContent = current;
+  // Percentage button
+  else if (buttonType === "percentage") {
+    if (current !== "Error") {
+      current = String(Number(current) / 100);
+    }
 
-  console.log(
-    `A acc: ${acc}, current: ${current}, operator: ${operator}, prevKey: ${prevKey}`
-  );
+    updateDisplay(current);
+  }
 });
